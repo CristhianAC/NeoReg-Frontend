@@ -126,3 +126,8 @@ test('elimina persona', async () => {
 		}
 	  )
 })
+
+test('elimina persona error', async () => {
+	fetchMock.mockResponseOnce('Error', { status: 500 })
+	await expect(deletePersona({})).rejects.toThrow('Error eliminando persona')
+})
