@@ -1,4 +1,4 @@
-const API_base = 'http://localhost:8000/api/v1';
+const { API_base } = require('./config');
 
 async function createPersona(data_persona){
     const res = await fetch(`${API_base}/personas`, {
