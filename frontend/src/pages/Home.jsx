@@ -1,4 +1,6 @@
 import React from "react";
+import PanelPersona from "./PanelPersona";
+import { Routes, Route } from "react-router-dom";
 
 function Home() {
   return (
