@@ -15,6 +15,11 @@ function Navbar() {
       icon: "pi pi-microchip-ai",
       command: () => navigate("/chatbot"),
     },
+    {
+      label: "Logs",
+      icon: "pi pi-folder",
+      command: () => navigate("/logs"),
+    },
   ];
 
   const searchBar = (
