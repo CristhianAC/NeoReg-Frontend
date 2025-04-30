@@ -1,9 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Menubar } from "primereact/menubar";
 import { InputNumber } from "primereact/inputnumber";
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const items = [
     {
       label: "Home",
@@ -17,7 +18,8 @@ function Navbar() {
     },
     {
       label: "Logs",
-      icon: "pi pi-folder",
+      icon:
+        location.pathname === "/logs" ? "pi pi-folder-open" : "pi pi-folder",
       command: () => navigate("/logs"),
     },
   ];
