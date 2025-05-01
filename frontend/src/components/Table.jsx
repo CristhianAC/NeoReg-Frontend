@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { useEffect } from "react";
+import { getWorkers } from "../api/workersApi";
 function Table() {
-  /*
-  {
-  "primer_nombre": "David",
-  "segundo_nombre": "",
-  "apellidos": "Hernandez Mosquera",
-  "fecha_nacimiento": "2009-09-05",
-  "genero": "MASCULINO",
-  "correo": "dasher@proton.com",
-  "celular": "3546679656",
-  "nro_documento": "9087678",
-  "tipo_documento": "CEDULA"}
+  const [workers, setWorkers] = useState([]);
 
-  */
-  // ejemplo, el arreglo realmente debe salir de la API
-  const people = [
+  useEffect(() => {
+    async function loadWorkers() {
+      const res = await getWorkers();
+      console.log("res", res);
+      setWorkers(res);
+    }
+    loadWorkers();
+  }, []);
+  /* const people = [
     {
       primer_nombre: "David",
       segundo_nombre: "",
@@ -28,11 +26,12 @@ function Table() {
       nro_documento: "9087678",
       tipo_documento: "CEDULA",
     },
-  ];
-  const columns = people.length > 0 ? Object.keys(people[0]) : [];
+  ]; */
+
+  const columns = workers.length > 0 ? Object.keys(workers[0]) : [];
   return (
-    <div className="card">
-      <DataTable value={people} tableStyle={{ minWidth: "50rem" }}>
+    <div>
+      <DataTable value={workers} tableStyle={{ minWidth: "50rem" }}>
         {columns.map((col) => (
           <Column
             key={col}
