@@ -1,6 +1,21 @@
-const userLogs = "http://localhost/api/users/api/v1/logs";
-const workerLogs = "http://localhost/api/workers/api/v1/logs";
-const RagLogs = "http://localhost/api/rag/api/v1/logs";
+export async function fetchLogs(endpoint, option = "") {
+  try {
+    const response = await fetch(
+      `http://localhost/api/${endpoint}/api/v1/logs${option}`
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(`Error fetching ${endpoint} logs: ${error}`);
+  }
+}
 
-// /stats al final para estadísticas
-// / clear al final para borrar
+fetchLogs("workers");
+
+// Usage:
+// fetchLogs('users');
+// fetchLogs('workers', '/stats');
+// fetchLogs('rag', '/clear');
+// data.filter( (item) => item.type =="request")
+// data.filter((item)=> )

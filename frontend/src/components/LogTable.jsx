@@ -3,7 +3,15 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useEffect } from "react";
 import { getWorkers } from "../api/workersApi";
+import { Button } from "primereact/button";
+import TableButtons from "./TableButtons";
 function LogTable() {
+  // CUD | Rag | R
+  // button Requests | Responses (All) | C | R | U | D
+  // table for requests
+  // table for response logs
+
+  const [view, setView] = useState("none");
   const requests = [
     {
       id: "a16557d4-7e51-4bf5-8a86-8ea7ce2ea6ef",
@@ -49,15 +57,28 @@ function LogTable() {
   ];
   return (
     <div>
-      <DataTable value={requests} tableStyle={{ minWidth: "50rem" }}>
-        <Column field="type" header="Type"></Column>
-        <Column field="method" header="Method"></Column>
-        <Column field="path" header="Path"></Column>
-      </DataTable>
-      <DataTable value={responses} tableStyle={{ minWidth: "50rem" }}>
-        <Column field="type" header="Type"></Column>
-        <Column field="status_code" header="Status Code"></Column>
-      </DataTable>
+      <h2>Example</h2>
+      <TableButtons setView={setView} />
+
+      {view == "none" && <h3>None</h3>}
+      {view == "requests" && (
+        <>
+          <DataTable value={requests} tableStyle={{ minWidth: "50rem" }}>
+            <Column field="type" header="Type"></Column>
+            <Column field="method" header="Method"></Column>
+            <Column field="path" header="Path"></Column>
+          </DataTable>
+        </>
+      )}
+
+      {view == "response" && (
+        <>
+          <DataTable value={responses} tableStyle={{ minWidth: "50rem" }}>
+            <Column field="type" header="Type"></Column>
+            <Column field="status_code" header="Status Code"></Column>
+          </DataTable>
+        </>
+      )}
     </div>
   );
 }
