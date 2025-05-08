@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useEffect } from "react";
-import { getWorkers } from "../api/workersApi";
-import { Button } from "primereact/button";
-import TableButtons from "./TableButtons";
+import LogDropdown from "./LogDropdown";
+import { fetchLogsFilter } from "../api/logsApi";
 function LogTable() {
-  // CUD | Rag | R
-  // button Requests | Responses (All) | C | R | U | D
-  // table for requests
-  // table for response logs
-
   const [view, setView] = useState("none");
+  const [showTables, setShowTables] = useState(false);
+  const [logEndpoint, setLogEndpoint] = useState("none");
+  const [params, setParams] = useState({});
+
+  console.log(`view: ${view}. endpoint ${logEndpoint}`);
+
   const requests = [
     {
       id: "a16557d4-7e51-4bf5-8a86-8ea7ce2ea6ef",
@@ -57,28 +56,22 @@ function LogTable() {
   ];
   return (
     <div>
-      <h2>Example</h2>
-      <TableButtons setView={setView} />
+      <LogDropdown
+        setLogEndpoint={setLogEndpoint}
+        setParams={setParams}
+        setShowTables={setShowTables}
+      />
 
-      {view == "none" && <h3>None</h3>}
-      {view == "requests" && (
-        <>
-          <DataTable value={requests} tableStyle={{ minWidth: "50rem" }}>
-            <Column field="type" header="Type"></Column>
-            <Column field="method" header="Method"></Column>
-            <Column field="path" header="Path"></Column>
-          </DataTable>
-        </>
-      )}
-
-      {view == "response" && (
-        <>
-          <DataTable value={responses} tableStyle={{ minWidth: "50rem" }}>
-            <Column field="type" header="Type"></Column>
-            <Column field="status_code" header="Status Code"></Column>
-          </DataTable>
-        </>
-      )}
+      <p>{logEndpoint != "none" ? `Endpoint ${logEndpoint}` : "no endpoint"}</p>
+      <p>
+        {params != {}
+          ? `limit: ${params.limit} type: ${params.type} `
+          : "no params"}
+      </p>
+      <p>{params.method_filter ? params.method_filter : "no method"}</p>
+      {showTables
+        ? console.log("data ", fetchLogsFilter(logEndpoint, params))
+        : console.log("no data yet")}
     </div>
   );
 }
