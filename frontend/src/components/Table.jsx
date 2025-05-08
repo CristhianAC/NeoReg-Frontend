@@ -3,12 +3,15 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useEffect } from "react";
 import { getWorkers } from "../api/workersApi";
+import { deleteUser } from "../api/usersApi";
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 
 function Table() {
   const [workers, setWorkers] = useState([]);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
   const toast = useRef(null);
   useEffect(() => {
     async function loadWorkers() {
@@ -17,15 +20,26 @@ function Table() {
       setWorkers(res);
     }
     loadWorkers();
-  }, []);
+  }, [refreshTrigger]);
 
-  const accept = (id) => {
-    toast.current.show({
-      severity: "info",
-      summary: "Confirmed",
-      detail: `You have deleted the user #${id}`,
-      life: 3000,
-    });
+  const accept = async (id) => {
+    try {
+      await deleteUser(id);
+      setRefreshTrigger((prev) => prev + 1);
+      toast.current.show({
+        severity: "info",
+        summary: "Confirmed",
+        detail: `You have deleted the user #${id}`,
+        life: 3000,
+      });
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to delete user",
+        life: 3000,
+      });
+    }
   };
 
   const reject = () => {
