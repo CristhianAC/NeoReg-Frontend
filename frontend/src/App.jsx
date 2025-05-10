@@ -4,7 +4,7 @@ import Chatbot from "./pages/Chatbot";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import WorkerFormPage from "./pages/WorkerFormPage";
-import PanelPersona from "./pages/PanelPersona";
+import LogPage from "./pages/LogPage";
 function App() {
   return (
     <BrowserRouter>
@@ -15,8 +15,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/worker/" element={<WorkerFormPage />} />
         <Route path="/worker/:id" element={<WorkerFormPage />} />
-        <Route path="/panel" element={<PanelPersona />} />
-        <Route path="/panel/:id" element={<PanelPersona />} />
+        <Route path="/logs" element={<LogPage />} />
       </Routes>
     </BrowserRouter>
   );
