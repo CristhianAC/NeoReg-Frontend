@@ -18,12 +18,27 @@ function normalizeWorker(data) {
     correo:     data.correo,
     celular:    data.celular,
     noDocumento:data.nro_documento,
-    tipoDocumento:
-      data.tipo_documento === "CEDULA" ? "CC"
-    : data.tipo_documento === "CE"     ? "CE"
-    : /*etc*/                          "PA",
+    tipoDocumento:data.tipo_documento
   };
 }
+
+function toApiPayload(form) {
+  return {
+    primer_nombre:    form.primerNombre,
+    segundo_nombre:   form.segundoNombre || null,  // if optional
+    apellidos:        form.apellidos,
+    fecha_nacimiento: form.fechaNacimiento,         // already YYYY-MM-DD
+    genero:
+      form.genero === "M" ? "MASCULINO"
+    : form.genero === "F" ? "FEMENINO"
+    :                     "OTRO",
+    correo:      form.correo,
+    celular:     form.celular,
+    nro_documento: form.noDocumento,
+    tipo_documento: form.tipoDocumento 
+  };
+}
+
 
 const PanelPersona = () => {
 
@@ -60,12 +75,13 @@ const PanelPersona = () => {
   , [id]);
   
   const handleSubmit = async (data) => {
+    const payload = toApiPayload(data);
     if (id) {
-      console.log('Updating worker with id:', id, data);
-      await updatePersona(id, data);
+      console.log('Updating worker with id:', id, payload);
+      await updatePersona(id, payload);
     } else {
-      console.log('Creating new worker', data);
-      await createPersona(data);
+      console.log('Creating new worker', payload);
+      await createPersona(payload);
     }
     // maybe redirect or show a success message here
   };

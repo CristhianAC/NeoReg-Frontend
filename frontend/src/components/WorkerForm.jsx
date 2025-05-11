@@ -82,9 +82,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="tipoDocumento"
                     {...register("tipoDocumento", { required: "Este campo es obligatorio" })}
                 >
-                    <option value="CC">Cédula de Ciudadanía</option>
-                    <option value="CE">Cédula de Extranjería</option>
-                    <option value="PA">Pasaporte</option>
+                    <option value="CEDULA">Cédula de Ciudadanía</option>
+                    <option value="CEDULA_DE_EXTRANJERIA">Cédula de Extranjería</option>
+                    <option value="PASAPORTE">Pasaporte</option>
                 </select>
             </div>
             <button type="submit">Submit</button>

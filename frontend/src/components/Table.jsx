@@ -71,6 +71,14 @@ function Table() {
     <div>
       <Toast ref={toast} />
       <ConfirmDialog />
+      
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '2.5rem', marginBottom: '1rem' }}>
+        <Button
+          icon="pi pi-plus"
+          className="p-button-success p-button-rounded"
+          onClick={() => navigate(`/panel`)}
+        />
+      </div>
       <DataTable value={workers} tableStyle={{ minWidth: "50rem" }}>
         {columns.map((col) => (
           <Column
