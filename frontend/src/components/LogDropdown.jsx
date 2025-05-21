@@ -18,7 +18,7 @@ function LogDropdown({ setLogEndpoint, setParams, setShowTables }) {
   const [inputValue, setInputValue] = useState(100);
 
   function updateParams() {
-    if (method == "ALL") {
+    if ((method == "ALL") | (type == "response")) {
       setParams({ limit: limit, type_filter: type });
     } else {
       setParams({ limit: limit, type_filter: type, method_filter: method });
