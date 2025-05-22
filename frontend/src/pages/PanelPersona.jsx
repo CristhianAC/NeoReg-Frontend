@@ -4,41 +4,9 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { fetchWorker } from '../api/workersApi'; // Adjust the import path as necessary
 import { createPersona, updatePersona } from '../api/usersApi';
-
-function normalizeWorker(data) {
-  return {
-    primerNombre:    data.primer_nombre,
-    segundoNombre:   data.segundo_nombre,
-    apellidos:       data.apellidos,
-    fechaNacimiento: data.fecha_nacimiento,      // date inputs want YYYY-MM-DD
-    genero:          // map the backend enum into your form’s options
-      data.genero === "MASCULINO" ? "M"
-    : data.genero === "FEMENINO"  ? "F"
-    :                                "O",
-    correo:     data.correo,
-    celular:    data.celular,
-    noDocumento:data.nro_documento,
-    tipoDocumento:data.tipo_documento
-  };
-}
-
-function toApiPayload(form) {
-  return {
-    primer_nombre:    form.primerNombre,
-    segundo_nombre:   form.segundoNombre || null,  // if optional
-    apellidos:        form.apellidos,
-    fecha_nacimiento: form.fechaNacimiento,         // already YYYY-MM-DD
-    genero:
-      form.genero === "M" ? "MASCULINO"
-    : form.genero === "F" ? "FEMENINO"
-    :                     "OTRO",
-    correo:      form.correo,
-    celular:     form.celular,
-    nro_documento: form.noDocumento,
-    tipo_documento: form.tipoDocumento 
-  };
-}
-
+import { normalizeWorker, toApiPayload } from '../utils/mappers'; // Adjust the import path as necessary
+import { validateForm } from '../utils/validations';
+import { useForm } from 'react-hook-form';
 
 const PanelPersona = () => {
 
@@ -47,16 +15,6 @@ const PanelPersona = () => {
   const [defaultValues, setDefaultValues] = useState({});
   const [loading, setLoading] = useState(!!id);
 
-  // const defaultValues = id ?  {"primerNombre" : "Juan"} : {}; // tomar de la API si existe el id
-
-  // const handleSubmit = (data) => {
-  //   if(id){
-  //     console.log("Updating worker with id:", id);
-  //   } else {
-  //     console.log("Creating new worker");
-  //   }
-  //   // call createWorker(data) or updateWorker(id, data)
-  // };
   useEffect(() => {
     if (!id) return;
     const fetchData = async () => {
@@ -74,7 +32,25 @@ const PanelPersona = () => {
   }
   , [id]);
   
-  const handleSubmit = async (data) => {
+  const methods = useForm({ defaultValues });
+  const {
+    handleSubmit,
+    setError,
+    register,
+    formState: { errors }
+  } = methods;
+
+  const onSubmit = async (data) => {
+    const { isValid, errors: validationErrors } = validateForm(data);
+    if (!isValid) {
+      Object.entries(validationErrors).forEach(([field, messages]) => {
+        setError(field, {
+          type: 'manual',
+          message: messages.join('. ')
+        });
+      });
+      return;
+    }
     const payload = toApiPayload(data);
     if (id) {
       console.log('Updating worker with id:', id, payload);
@@ -101,8 +77,10 @@ const PanelPersona = () => {
         )}
       </div>
       <WorkerForm 
-      defaultValues={defaultValues}
-      onSubmit={handleSubmit} />
+        register={register}
+        errors={errors}
+        onSubmit={handleSubmit(onSubmit)}
+      />
     </div>
   );
 };

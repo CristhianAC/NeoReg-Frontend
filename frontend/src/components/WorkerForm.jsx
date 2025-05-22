@@ -1,10 +1,9 @@
-import { useForm } from 'react-hook-form';
 
-const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
-    const { register, handleSubmit } = useForm({ defaultValues });
+
+const WorkerForm = ({ register, errors, onSubmit }) => {
 
     return (
-        <form className="worker-form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="worker-form" onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="primerNombre">Primer nombre</label>
                 <input
@@ -12,6 +11,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="primerNombre"
                     {...register("primerNombre", { required: "Este campo es obligatorio" })}
                 />
+                {errors.primerNombre && (
+                    <p className="error">{errors.primerNombre.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="segundoNombre">Segundo nombre</label>
@@ -20,6 +22,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="segundoNombre"
                     {...register("segundoNombre")}
                 />
+                {errors.segundoNombre && (
+                    <p className="error">{errors.segundoNombre.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="apellidos">Apellidos</label>
@@ -28,6 +33,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="apellidos"
                     {...register("apellidos", { required: "Este campo es obligatorio" })}
                 />
+                {errors.apellidos && (
+                    <p className="error">{errors.apellidos.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
@@ -36,6 +44,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="fechaNacimiento"
                     {...register("fechaNacimiento", { required: "Este campo es obligatorio" })}
                 />
+                {errors.fechaNacimiento && (
+                    <p className="error">{errors.fechaNacimiento.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="genero">Género</label>
@@ -45,8 +56,12 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                 >
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
-                    <option value="O">Otro</option>
+                    <option value="O">No-binario</option>
+                    <option value="N">Prefiero no reportar</option>
                 </select>
+            {errors.genero && (
+                    <p className="error">{errors.genero.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="correo">Correo electrónico</label>
@@ -57,6 +72,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                         required: "Este campo es obligatorio"
                     })}
                 />
+            {errors.correo && (
+                    <p className="error">{errors.correo.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="celular">Número de celular</label>
@@ -67,6 +85,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                         required: "Este campo es obligatorio"
                     })}
                 />
+            {errors.celular && (
+                    <p className="error">{errors.celular.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="noDocumento">Número de documento</label>
@@ -75,6 +96,9 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="noDocumento"
                     {...register("noDocumento", { required: "Este campo es obligatorio" })}
                 />
+            {errors.noDocumento && (
+                    <p className="error">{errors.noDocumento.message}</p>
+                )}
             </div>
             <div className="form-group">
                 <label htmlFor="tipoDocumento">Tipo de documento</label>
@@ -82,9 +106,8 @@ const WorkerForm = ({ defaultValues = {}, onSubmit }) => {
                     id="tipoDocumento"
                     {...register("tipoDocumento", { required: "Este campo es obligatorio" })}
                 >
-                    <option value="CEDULA">Cédula de Ciudadanía</option>
-                    <option value="CEDULA_DE_EXTRANJERIA">Cédula de Extranjería</option>
-                    <option value="PASAPORTE">Pasaporte</option>
+                    <option value="CEDULA">Cédula de ciudadanía</option>
+                    <option value="TARJETA_DE_IDENTIDAD">Tarjeta de identidad</option>
                 </select>
             </div>
             <button type="submit">Submit</button>
