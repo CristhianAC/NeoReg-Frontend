@@ -17,7 +17,7 @@ function Table() {
   useEffect(() => {
     async function loadWorkers() {
       const res = await getWorkers();
-      console.log("res", res);
+      //console.log("res", res);
       setWorkers(res);
     }
     loadWorkers();
