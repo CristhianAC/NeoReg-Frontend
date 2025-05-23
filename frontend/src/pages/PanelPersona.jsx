@@ -1,6 +1,6 @@
 import React from 'react';
 import WorkerForm from '../components/WorkerForm';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { fetchWorker } from '../api/workersApi'; // Adjust the import path as necessary
 import { createPersona, updatePersona } from '../api/usersApi';
@@ -14,6 +14,7 @@ const PanelPersona = () => {
 
   const [defaultValues, setDefaultValues] = useState({});
   const [loading, setLoading] = useState(!!id);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -62,9 +63,19 @@ const PanelPersona = () => {
     if (id) {
       console.log('Updating worker with id:', id, payload);
       await updatePersona(id, payload);
+      navigate('/home', {
+        state: { 
+          toast: { severity: 'success', summary: '¡Éxito!', detail: 'Trabajador actualizado' } 
+        }
+      });
     } else {
       console.log('Creating new worker', payload);
       await createPersona(payload);
+      navigate('/home', {
+        state: { 
+          toast: { severity: 'success', summary: '¡Éxito!', detail: 'Trabajador creado' } 
+        }
+      });
     }
     // maybe redirect or show a success message here
   };
