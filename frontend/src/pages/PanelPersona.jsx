@@ -37,8 +37,15 @@ const PanelPersona = () => {
     handleSubmit,
     setError,
     register,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = methods;
+  useEffect(() => {
+  // don't reset to empty on mount
+  if (Object.keys(defaultValues).length) {
+    reset(defaultValues);
+  }
+}, [defaultValues, reset]);
 
   const onSubmit = async (data) => {
     const { isValid, errors: validationErrors } = validateForm(data);

@@ -23,7 +23,7 @@ export function validateForm(form){
     if (!isValidTextInput(form.primerNombre) ) {
         errors.primerNombre = ["El primer nombre solo puede contener letras y espacios"];
     }
-    if (form.segundoNombre.length > 30) {
+    if (form.segundoNombre?.length > 30) {
         errors.segundoNombre = ["El segundo nombre no puede tener más de 30 caracteres"];
     }
     if (!isValidTextInput(form.segundoNombre) && form.segundoNombre.length > 0) {
