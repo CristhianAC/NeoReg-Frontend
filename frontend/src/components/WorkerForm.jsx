@@ -1,4 +1,4 @@
-
+import '../assets/form.css'
 
 const WorkerForm = ({ register, errors, onSubmit }) => {
 

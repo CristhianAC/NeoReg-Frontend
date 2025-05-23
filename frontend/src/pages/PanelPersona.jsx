@@ -86,14 +86,6 @@ const PanelPersona = () => {
 
   return (
     <div>
-      <h1>Worker Form</h1>
-      <div>
-        {id ? (
-          <h2>Editing Worker with ID: {id}</h2>
-        ) : (
-          <h2>Creating New Worker</h2>
-        )}
-      </div>
       <WorkerForm 
         register={register}
         errors={errors}
