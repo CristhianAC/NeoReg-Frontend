@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import WorkerFormPage from "./pages/WorkerFormPage";
 import LogPage from "./pages/LogPage";
+import PanelPersona from "./pages/PanelPersona";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,8 @@ function App() {
         <Route path="/worker/" element={<WorkerFormPage />} />
         <Route path="/worker/:id" element={<WorkerFormPage />} />
         <Route path="/logs" element={<LogPage />} />
+        <Route path ="/panel" element={<PanelPersona />} />
+        <Route path="/panel/:id" element={<PanelPersona />} />
       </Routes>
     </BrowserRouter>
   );

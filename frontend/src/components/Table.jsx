@@ -7,6 +7,7 @@ import { deleteUser } from "../api/usersApi";
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
+import { useNavigate } from "react-router-dom";
 
 function Table() {
   const [workers, setWorkers] = useState([]);
@@ -64,10 +65,20 @@ function Table() {
   };
 
   const columns = workers.length > 0 ? Object.keys(workers[0]) : [];
+
+  const navigate = useNavigate();
   return (
     <div>
       <Toast ref={toast} />
       <ConfirmDialog />
+      
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '2.5rem', marginBottom: '1rem' }}>
+        <Button
+          icon="pi pi-plus"
+          className="p-button-success p-button-rounded"
+          onClick={() => navigate(`/panel`)}
+        />
+      </div>
       <DataTable value={workers} tableStyle={{ minWidth: "50rem" }}>
         {columns.map((col) => (
           <Column
@@ -86,7 +97,7 @@ function Table() {
               <Button
                 icon="pi pi-pencil"
                 className="p-button-rounded p-button-text"
-                onClick={() => console.log("Editar")}
+                onClick={() => navigate(`/panel/${rowData.id}`)}
               />
               <Button
                 icon="pi pi-trash"
