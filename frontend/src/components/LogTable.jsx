@@ -43,7 +43,7 @@ function LogTable() {
         setParams={setParams}
         setShowTables={setShowTables}
       />
-
+      <br />
       <Calendar value={date} onChange={(e) => updateDate(e)} showIcon />
 
       {params.type_filter == "request" && (
