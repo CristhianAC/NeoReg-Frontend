@@ -1,9 +1,25 @@
 import '../assets/form.css'
+import PhotoInput from './PhotoInput';
 
-const WorkerForm = ({ register, errors, onSubmit }) => {
-
+const WorkerForm = ({ 
+    register, 
+    errors, 
+    onSubmit,
+    photoUrl,
+    onPhotoChange,
+    onPhotoDelete
+}) => {
     return (
         <form className="worker-form" onSubmit={onSubmit}>
+            <div className="form-group">
+                <label htmlFor="photo">Foto</label>
+                <PhotoInput
+                    initialUrl={photoUrl}
+                    onFileSelect={onPhotoChange}
+                    onDelete={onPhotoDelete}
+                />
+                {errors.photo && <p className="error">{errors.photo.message}</p>}
+            </div>
             <div className="form-group">
                 <label htmlFor="primerNombre">Primer nombre</label>
                 <input
