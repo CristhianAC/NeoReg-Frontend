@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Toast } from 'primereact/toast';
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { Toast } from "primereact/toast";
 import Table from "../components/Table";
-
+import ErrorBoundary from "../components/ErrorBoundary";
 function Home() {
   const toast = useRef(null);
   const { state, pathname } = useLocation();
@@ -20,9 +20,11 @@ function Home() {
     <>
       <Toast ref={toast} />
       <div>
-      <h1>Home</h1>
-      <Table />
-    </div>
+        <h1>Home</h1>
+        <ErrorBoundary>
+          <Table />
+        </ErrorBoundary>
+      </div>
     </>
   );
 }

@@ -31,7 +31,7 @@ function Navbar() {
       onKeyDown={(e) => {
         if (e.key === "Enter" && e.target.value?.trim() !== "") {
           console.log("Search:", e.target.value);
-          navigate(`/worker/${e.target.value}`);
+          navigate(`/panel/${e.target.value}`);
         }
       }}
     />
