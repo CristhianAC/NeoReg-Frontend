@@ -49,6 +49,7 @@ const PanelPersona = () => {
   const {
     handleSubmit,
     setError,
+    clearErrors,
     register,
     formState: { errors },
     reset
@@ -61,7 +62,8 @@ const PanelPersona = () => {
 }, [defaultValues, reset]);
 
   const onSubmit = async (data) => {
-    const { isValid, errors: validationErrors } = validateForm(data);
+    const { isValid : formIsValid, errors: validationErrors } = validateForm(data);
+    let isValid = formIsValid;
 
     if (photoFile && photoFile.size > 2 * 1024 * 1024) {
       setError("photo", {
@@ -119,6 +121,16 @@ const PanelPersona = () => {
     return <div>Loading worker data…</div>;
   }
 
+  const handleFileSelect = (file) => {
+  setPhotoFile(file);
+
+  // clear any previous photo error immediately
+  if (file.size <= 2 * 1024 * 1024) {
+    clearErrors("photo");
+  }
+};
+
+
   return (
     <div>
       <WorkerForm 
@@ -126,7 +138,7 @@ const PanelPersona = () => {
         errors={errors}
         onSubmit={handleSubmit(onSubmit)}
         photoUrl={photoUrl}
-        onPhotoChange={setPhotoFile}
+        onPhotoChange={handleFileSelect}
         onPhotoDelete={() => {
           setPhotoDeleted(true);
           setPhotoUrl(null);
